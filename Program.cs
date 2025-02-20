@@ -2,19 +2,21 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Npgsql;
-using DotNetEnv;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Load environment variables from .env file
-Env.Load();
+// Parse VCAP_SERVICES to get PostgreSQL credentials
+var vcapServices = Environment.GetEnvironmentVariable("VCAP_SERVICES");
+var postgresCredentials = JsonSerializer.Deserialize<JsonElement>(vcapServices)
+    .GetProperty("user-provided")[0]
+    .GetProperty("credentials");
 
-// Construct the connection string using environment variables
-var host = Environment.GetEnvironmentVariable("POSTGRES_HOST");
-var database = Environment.GetEnvironmentVariable("POSTGRES_DATABASE");
-var username = Environment.GetEnvironmentVariable("POSTGRES_USERNAME");
-var password = Environment.GetEnvironmentVariable("POSTGRES_PASSWORD");
-var port = Environment.GetEnvironmentVariable("POSTGRES_PORT");
+var host = postgresCredentials.GetProperty("host").GetString();
+var database = postgresCredentials.GetProperty("database").GetString();
+var username = postgresCredentials.GetProperty("username").GetString();
+var password = postgresCredentials.GetProperty("password").GetString();
+var port = postgresCredentials.GetProperty("port").GetString();
 
 var connectionString = $"Host={host};Database={database};Username={username};Password={password};Port={port}";
 
