@@ -1,0 +1,168 @@
+# ignore .env
+.env
+
+# Ignore build artifacts
+[Bb]in/
+[Oo]bj/
+
+# Ignore user-specific files
+*.user
+*.suo
+*.userprefs
+*.userosscache
+
+# Ignore IDE-specific files
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore NuGet packages and restore files
+[Nn]u[Gg]et/
+*.nupkg
+packages/
+nuget.exe
+
+# Ignore local development files
+*.local
+*.log
+*.sql
+*.bak
+*.tmp
+
+# Ignore test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# Ignore ReSharper files
+_ReSharper.*
+*.ReSharper
+*.DotSettings.user
+
+# Ignore Azure Functions local settings
+local.settings.json
+
+# Ignore Rider files
+.idea/
+*.sln.iml
+
+# Ignore macOS files
+.DS_Store
+
+# Ignore Node.js files (if applicable)
+node_modules/
+npm-debug.log
+
+# Ignore VS Code settings
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Ignore Docker files (if applicable)
+docker-compose.override.yml
+docker-compose.vs.debug.yml
+docker-compose.vs.release.yml
+
+# Ignore Azure App Service files (if applicable)
+*.azurewebsites.net
+
+# Ignore Rider files
+.idea/
+*.sln.iml
+
+# Ignore Python files (if applicable)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore JetBrains Rider files
+.idea/
+*.sln.iml
+
+# Ignore Visual Studio cache/options directory
+.vs/
+
+# Ignore local launch settings
+launchSettings.json
+
+# Ignore local appsettings
+appsettings.Development.json
+
+# Ignore Rider files
+.idea/
+*.sln.iml
+
+# Ignore Visual Studio cache/options directory
+.vs/
+
+# Ignore local development files
+*.local
+*.log
+*.sql
+*.bak
+*.tmp
+
+# Ignore test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# Ignore ReSharper files
+_ReSharper.*
+*.ReSharper
+*.DotSettings.user
+
+# Ignore Azure Functions local settings
+local.settings.json
+
+# Ignore Rider files
+.idea/
+*.sln.iml
+
+# Ignore macOS files
+.DS_Store
+
+# Ignore Node.js files (if applicable)
+node_modules/
+npm-debug.log
+
+# Ignore VS Code settings
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Ignore Docker files (if applicable)
+docker-compose.override.yml
+docker-compose.vs.debug.yml
+docker-compose.vs.release.yml
+
+# Ignore Azure App Service files (if applicable)
+*.azurewebsites.net
+
+# Ignore Rider files
+.idea/
+*.sln.iml
+
+# Ignore Python files (if applicable)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore JetBrains Rider files
+.idea/
+*.sln.iml
+
+# Ignore Visual Studio cache/options directory
+.vs/
+
+# Ignore local launch settings
+launchSettings.json
+
+# Ignore local appsettings
+appsettings.Development.json
