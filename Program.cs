@@ -47,21 +47,41 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-// Add an API endpoint to fetch PostgreSQL version
-app.MapGet("/api/version", async (ILogger<Program> logger) =>
+// Add an API endpoint to fetch PostgreSQL connection details
+app.MapGet("/api/version", async context =>
 {
+    var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
+
     await using var conn = new NpgsqlConnection(connectionString);
     await conn.OpenAsync();
 
     // Log a statement after establishing the connection
     logger.LogInformation("Database connection established successfully.");
 
-    await using var cmd = new NpgsqlCommand("SELECT version()", conn);
+    await using var cmd = new NpgsqlCommand("SELECT current_user, session_user, inet_client_addr(), inet_client_port()", conn);
     logger.LogInformation("Query has been successfully constructed");
-    var version = await cmd.ExecuteScalarAsync();
+    await using var reader = await cmd.ExecuteReaderAsync();
     logger.LogInformation("Query executed successfully.");
 
-    return new { Version = version?.ToString() };
+    if (await reader.ReadAsync())
+    {
+        var currentUser = reader.GetString(0);
+        var sessionUser = reader.GetString(1);
+        var clientAddr = reader.IsDBNull(2) ? "N/A" : reader.GetFieldValue<System.Net.IPAddress>(2).ToString();
+        var clientPort = reader.IsDBNull(3) ? "N/A" : reader.GetInt32(3).ToString();
+
+        await context.Response.WriteAsJsonAsync(new
+        {
+            CurrentUser = currentUser,
+            SessionUser = sessionUser,
+            ClientAddress = clientAddr,
+            ClientPort = clientPort
+        });
+    }
+    else
+    {
+        context.Response.StatusCode = StatusCodes.Status404NotFound;
+    }
 });
 
 app.Run();
