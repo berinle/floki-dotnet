@@ -2,10 +2,11 @@ applications:
 - name: floki-dotnet
   memory: 512M
   buildpacks:
+    - https://github.com/cloudfoundry/apt-buildpack 
     - dotnet_core_buildpack
-    # - https://github.com/cloudfoundry/dotnet-core-buildpack
   env:
     ASPNETCORE_ENVIRONMENT: Production
     # DOTNET_RUNTIME_VERSION: 8.0.8 # change this to the version you want
+    # ODBCINSTINI: /app/lib/odbcinst.ini
   services:
     - mypg

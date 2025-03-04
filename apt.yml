@@ -1,0 +1,4 @@
+packages:
+  - unixodbc
+  - unixodbc-dev
+  - odbc-postgresql

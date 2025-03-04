@@ -4,6 +4,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Npgsql;
 using System.Text.Json;
+using System;
+using System.Data.Odbc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +26,8 @@ var username = postgresCredentials.GetProperty("username").GetString();
 var password = postgresCredentials.GetProperty("password").GetString();
 var port = postgresCredentials.GetProperty("port").GetString();
 
-var connectionString = $"Host={host};Database={database};Username={username};Password={password};Port={port}";
+// var connectionString = $"Driver={{PostgreSQL Unicode}};Server={host};Port={port};Database={database};Uid={username};Pwd={password}";
+var connectionString = $"Driver=/home/vcap/deps/0/apt/usr/lib/x86_64-linux-gnu/odbc/psqlodbcw.so;Server={host};Port={port};Database={database};Uid={username};Pwd={password}";
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -52,22 +55,24 @@ app.MapGet("/api/version", async context =>
 {
     var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
 
-    await using var conn = new NpgsqlConnection(connectionString);
+    using var conn = new OdbcConnection(connectionString);
     await conn.OpenAsync();
 
     // Log a statement after establishing the connection
     logger.LogInformation("Database connection established successfully.");
 
-    await using var cmd = new NpgsqlCommand("SELECT current_user, session_user, inet_client_addr(), inet_client_port()", conn);
+    using var cmd = conn.CreateCommand();
+    cmd.CommandText = "SELECT current_user, session_user, inet_client_addr(), inet_client_port()";
     logger.LogInformation("Query has been successfully constructed");
-    await using var reader = await cmd.ExecuteReaderAsync();
+
+    using var reader = await cmd.ExecuteReaderAsync();
     logger.LogInformation("Query executed successfully.");
 
     if (await reader.ReadAsync())
     {
         var currentUser = reader.GetString(0);
         var sessionUser = reader.GetString(1);
-        var clientAddr = reader.IsDBNull(2) ? "N/A" : reader.GetFieldValue<System.Net.IPAddress>(2).ToString();
+        var clientAddr = reader.IsDBNull(2) ? "N/A" : reader.GetString(2);
         var clientPort = reader.IsDBNull(3) ? "N/A" : reader.GetInt32(3).ToString();
 
         await context.Response.WriteAsJsonAsync(new
