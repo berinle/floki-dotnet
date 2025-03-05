@@ -12,12 +12,9 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.2" />
     <PackageReference Include="Npgsql" Version="9.0.2" />
     <PackageReference Include="System.Data.Odbc" Version="6.0.0" />
-    <!-- <None Update="lib/psqlodbcw.so">
+    <None Update="lib/psqlodbcw.so">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="lib/odbcinst.ini">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None> -->
   </ItemGroup>
 
 </Project>

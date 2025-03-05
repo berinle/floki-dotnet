@@ -26,8 +26,7 @@ var username = postgresCredentials.GetProperty("username").GetString();
 var password = postgresCredentials.GetProperty("password").GetString();
 var port = postgresCredentials.GetProperty("port").GetString();
 
-// var connectionString = $"Driver={{PostgreSQL Unicode}};Server={host};Port={port};Database={database};Uid={username};Pwd={password}";
-var connectionString = $"Driver=/home/vcap/deps/0/apt/usr/lib/x86_64-linux-gnu/odbc/psqlodbcw.so;Server={host};Port={port};Database={database};Uid={username};Pwd={password}";
+var connectionString = $"Driver=/app/lib/psqlodbcw.so;Server={host};Port={port};Database={database};Uid={username};Pwd={password}";
 
 // Add services to the container.
 builder.Services.AddRazorPages();
